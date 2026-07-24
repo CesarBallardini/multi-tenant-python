@@ -19,7 +19,7 @@ class WrongWardError(DomainError):
     """Raised when checking guardianship against a person who is not the ward."""
 
 
-class Guardianship(Entity):
+class Guardianship(Entity[GuardianshipId]):
     """A stored link between a guardian and a ward.
 
     Whether the guardianship *applies* is computed on read: it holds only while the ward

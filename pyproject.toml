@@ -47,6 +47,10 @@ filterwarnings = [
     # which Python 3.14 deprecates. Third-party code we don't own -- scoped to
     # that module so our own deprecations still surface.
     "ignore:'maxsplit' is passed as positional argument:DeprecationWarning:gherkin.gherkin_line",
+    # pytest-bdd registers step fixtures via pytest's old fixture-scoping API,
+    # which pytest 9 deprecates. Third-party compatibility lag; matched by message.
+    "ignore:Passing baseid to FixtureDef is deprecated",
+    "ignore:Passing nodeid to _register_fixture is deprecated",
 ]
 markers = [
     "unit: fast tests with no external dependencies",

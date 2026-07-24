@@ -21,7 +21,7 @@ class GraduationStateError(DomainError):
     """Raised on an invalid graduation state transition (e.g. revoking a revoked one)."""
 
 
-class Graduation(Entity):
+class Graduation(Entity[GraduationId]):
     """A stored conferral event: a dated record that issues a credential to a student."""
 
     def __init__(

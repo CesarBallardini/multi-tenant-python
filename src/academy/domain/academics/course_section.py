@@ -21,7 +21,7 @@ class Enrollment:
     student_id: PersonId
 
 
-class CourseSection(Entity):
+class CourseSection(Entity[SectionId]):
     """A section formed to teach one subject in one term, taught by one teacher.
 
     Teacher qualification is enforced when the section is created (see

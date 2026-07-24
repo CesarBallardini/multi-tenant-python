@@ -8,7 +8,7 @@ from academy.domain.shared.entity import Entity
 from academy.domain.shared.ids import PersonId, SectionId, SubjectId
 
 
-class AcademicHistory(Entity):
+class AcademicHistory(Entity[PersonId]):
     """The complete transcript of every grade a student has obtained over time.
 
     The history is identified by its student: there is exactly one per student. It is

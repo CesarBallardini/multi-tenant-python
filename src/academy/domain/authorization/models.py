@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import NamedTuple
 
 from academy.domain.people.role import Role
 from academy.domain.shared.ids import PersonId
@@ -32,6 +33,13 @@ class Relation(Enum):
     ADMINISTRATOR = 'administrator'
 
 
+class Permission(NamedTuple):
+    """A (resource, action) pair: the unit a relation may grant."""
+
+    resource: ResourceType
+    action: Action
+
+
 @dataclass(frozen=True, slots=True)
 class AccessRequest:
     """A resolved request to act on a resource owned by some person.
@@ -46,6 +54,11 @@ class AccessRequest:
     owner_id: PersonId
     actor_roles: frozenset[Role] = field(default_factory=frozenset)
     relations: frozenset[Relation] = field(default_factory=frozenset)
+
+    @property
+    def permission(self) -> Permission:
+        """The (resource, action) permission this request asks for."""
+        return Permission(self.resource, self.action)
 
 
 @dataclass(frozen=True, slots=True)

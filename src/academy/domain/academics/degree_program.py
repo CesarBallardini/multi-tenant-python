@@ -16,7 +16,7 @@ class DuplicatePlanError(DomainError):
     """Raised when adding a plan whose id is already in the program."""
 
 
-class DegreeProgram(Entity):
+class DegreeProgram(Entity[ProgramId]):
     """A degree program that offers study plans, at most one active at a time."""
 
     def __init__(self, id: ProgramId, name: str, plans: list[Plan] | None = None) -> None:

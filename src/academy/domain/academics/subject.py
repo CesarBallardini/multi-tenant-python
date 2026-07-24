@@ -11,7 +11,7 @@ class InvalidSubjectError(DomainError):
     """Raised when a subject has an empty name."""
 
 
-class Subject(Entity):
+class Subject(Entity[SubjectId]):
     """A subject that belongs to a study plan."""
 
     def __init__(self, id: SubjectId, name: str) -> None:

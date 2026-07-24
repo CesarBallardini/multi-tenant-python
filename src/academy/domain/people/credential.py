@@ -6,7 +6,7 @@ from academy.domain.shared.entity import Entity
 from academy.domain.shared.ids import CredentialId, SubjectId
 
 
-class Credential(Entity):
+class Credential(Entity[CredentialId]):
     """A credential (the "titulo"): qualifies its holder to teach a set of subjects.
 
     The same credential concept is what a degree program issues to a graduate, so a

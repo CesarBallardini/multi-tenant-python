@@ -7,7 +7,7 @@ from academy.domain.shared.entity import Entity
 from academy.domain.shared.ids import PlanId, SubjectId
 
 
-class Plan(Entity):
+class Plan(Entity[PlanId]):
     """A study plan: a flat set of subjects, with no prerequisites between them.
 
     Activation state is controlled by the owning ``DegreeProgram`` to preserve the

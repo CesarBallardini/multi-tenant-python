@@ -360,14 +360,31 @@ instead of scattering `if role == ...` checks across the API handlers.
 **Relations** (the edges the policy walks): `self`, `teacher_of_section`, `guardian_of`,
 `administrator`.
 
-**Grant matrix** (record-level; "scope" is the relationship that gates it):
+**Grant matrix** -- the complete relation x (resource, action) permission table. A request
+is allowed if any of its resolved relations grants the requested `(resource, action)`:
 
-| Relation / role | grades.read | grades.write | history.read | Scope of records |
-|-----------------|:-----------:|:------------:|:------------:|------------------|
-| self (student over own) | yes | no | yes | the person's own records |
-| teacher_of_section | yes | yes | no | students in a section the teacher teaches, that subject only |
-| guardian_of | yes | no | yes | the wards' records (only while ward is a minor) |
-| administrator | yes | no | yes | grade listings, histories, graduation lists; never write |
+| Relation           | grades.read | grades.write | history.read | history.write |
+|--------------------|:-----------:|:------------:|:------------:|:-------------:|
+| self               |      ✓      |      ✗       |      ✓       |       ✗       |
+| teacher_of_section |      ✓      |      ✓       |      ✗       |       ✗       |
+| guardian_of        |      ✓      |      ✗       |      ✓       |       ✗       |
+| administrator      |      ✓      |      ✗       |      ✓       |       ✗       |
+| (none)             |      ✗      |      ✗       |      ✗       |       ✗       |
+
+The grants are **record-level**: each ✓ applies only to the subset of records the relation
+scopes to --
+
+- **self** -- the person's own grades and history.
+- **teacher_of_section** -- only students enrolled in a section the teacher teaches, and
+  only for that section's subject.
+- **guardian_of** -- the wards' records, and only while the ward is a minor (guardianship
+  is computed on read).
+- **administrator** -- grade listings, academic histories, and graduation lists; read-only,
+  never writes grades.
+
+This matrix is asserted end-to-end by the acceptance features
+`tests/acceptance/features/grades_permissions.feature` and
+`academic_history_permissions.feature`.
 
 ```mermaid
 classDiagram

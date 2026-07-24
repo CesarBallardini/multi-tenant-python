@@ -12,7 +12,7 @@ from academy.domain.shared.entity import Entity
 from academy.domain.shared.ids import CredentialId, PersonId
 
 
-class Person(Entity):
+class Person(Entity[PersonId]):
     """A person: a single record carrying every role and credential the person holds."""
 
     def __init__(
