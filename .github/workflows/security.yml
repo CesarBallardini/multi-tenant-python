@@ -1,4 +1,5 @@
 name: security
+run-name: ${{ github.workflow }}
 
 on:
   push:

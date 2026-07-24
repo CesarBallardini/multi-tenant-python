@@ -1,4 +1,5 @@
 name: pytest
+run-name: ${{ github.workflow }}
 
 on:
   push:
