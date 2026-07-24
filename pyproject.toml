@@ -1,0 +1,58 @@
+[project]
+name = "academy"
+version = "0.1.0"
+description = "academy: a multi-tenant academic-records backend, built domain-first on ports and adapters."
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/academy"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-cov",
+    "pytest-xdist",
+    "pytest-bdd",
+    "pytest-playwright",
+    "factory-boy",
+    "faker",
+    "httpx",
+    "ruff",
+    "pyright",
+    "pyrefly",
+    "bandit[toml]",
+    "pip-audit",
+    "pre-commit",
+]
+deploy = [
+    "docker",
+]
+
+[tool.pytest.ini_options]
+# Smoke tests always run: the expression is `(not e2e and not snapshot) or smoke`,
+# so a smoke-tagged e2e test is never deselected by default.
+addopts = "-ra --strict-markers -m 'not e2e and not snapshot or smoke'"
+testpaths = ["tests"]
+filterwarnings = [
+    # pytest-bdd's gherkin parser calls re.split(..., maxsplit) positionally,
+    # which Python 3.14 deprecates. Third-party code we don't own -- scoped to
+    # that module so our own deprecations still surface.
+    "ignore:'maxsplit' is passed as positional argument:DeprecationWarning:gherkin.gherkin_line",
+]
+markers = [
+    "unit: fast tests with no external dependencies",
+    "integration: in-process API tests (httpx AsyncClient + ASGITransport)",
+    "bdd: behavior-driven acceptance tests (pytest-bdd, Gherkin)",
+    "e2e: end-to-end tests against a running instance (httpx + uvicorn)",
+    "smoke: thin, always-on smoke subset of e2e; never deselected by default",
+    "snapshot: snapshot tests, excluded by default, run on demand",
+]
